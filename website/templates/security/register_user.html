@@ -1,0 +1,39 @@
+{% extends "security/auth_base.html" %}
+{% from "security/_macros.html" import render_field_with_errors, render_field, render_field_errors, render_form_errors %}
+
+{% block title %} Register {% endblock %}
+{% block content %}
+
+<div class="row w-100 m-0">
+  <div class="content-wrapper full-page-wrapper d-flex align-items-center auth login-bg">
+    <div class="col-lg-4 mx-auto">
+      <div class="card">
+        <div class="card-body px-5 py-5">
+          {% with msg=get_flashed_messages()%}
+            {% if msg %}
+              {% for m in msg %}
+                <h4>{{ m }}</h4>
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
+          <h3 class="card-title text-left mb-3">Sign Up</h3>
+          <form action="{{ url_for('security.register') }}" method="POST" name="register_user_form">
+            {{ register_user_form.hidden_tag() }}
+            {{ render_form_errors(register_user_form) }}
+            {{ render_field_with_errors(register_user_form.email) }}
+            {% if security.username_enable %}
+              {{ render_field_with_errors(register_user_form.username) }}
+            {%  endif %}
+            {{ render_field_with_errors(register_user_form.password) }}
+            {{ render_field_with_errors(register_user_form.first_name) }}
+            {{ render_field_with_errors(register_user_form.last_name) }}
+            {{ render_field(register_user_form.submit) }}
+
+            <p class="login">Already have an Account?<a href="{{url_for('security.login')}}"> Login</a></p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

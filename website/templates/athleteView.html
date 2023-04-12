@@ -1,0 +1,198 @@
+<!-- THIS FILE (ATHLETEVIEW.HTML) DRAWS THE ATHLETE DASHBOARD -->
+
+{% extends "base.html" %}
+
+{% block title %} Home {% endblock %}
+{% block content %}
+<div class="main-panel">
+  <div class="content-wrapper">
+    <div class="row">
+      <div class="col-12 grid-margin stretch-card">
+        <div class="card corona-gradient-card">
+          <div class="card-body py-0 px-0 px-sm-3">
+            <div class="row align-items-center">
+              <div class="col-4 col-sm-3 col-xl-2">
+              </div>
+              <div class="col-5 col-sm-7 col-xl-8 p-0 text-center">
+                <h2 class="mb-1 mb-sm-0">Colby College Athlete Management System</h2>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="row">
+        <div class="col-12 grid-margin stretch-card">
+          
+            <div class="card-body py-0 px-0 px-sm-3">
+              <div class="row align-items-center">
+                <div class="col-4 col-sm-3 col-xl-2">
+                </div>
+                <div class="col-5 col-sm-7 col-xl-8 p-0 text-center">
+                  <h1 class="mb-1 mb-sm-0">{{fname}}{{lname}}</h1>
+                </div>
+              </div>
+            
+          </div>
+        </div>
+      </div>
+      
+      
+      
+    </div>
+
+    <div class="row">
+      <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+          
+          <div class="card-body">
+
+            <h4 class="card-title"> </h4>
+
+            <div id="block_container">
+
+              <div id = "sleepGraph"></div>
+              <div id = "nutritionGraph"></div>
+              <div id = "readinessGraph"></div>
+
+            </div>
+            
+            <div id="block_container">
+              <div id = "teamGraph" ></div>
+            </div>
+         
+            <!--plotly CDN-->
+            <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+            <script type="text/javascript">
+
+                var sleepGraph = {{ sleepGraphJSON | safe}};
+                Plotly.plot("sleepGraph", sleepGraph,{});
+
+                var nutritionGraph = {{ nutritionGraphJSON | safe}};
+                Plotly.plot("nutritionGraph", nutritionGraph,{});
+
+                var readinessGraph = {{ readinessGraphJSON | safe}};
+                Plotly.plot("readinessGraph", readinessGraph,{});
+
+                var teamGraph = {{ teamGraphJSON | safe}};
+                Plotly.plot("teamGraph", teamGraph,{});
+
+            </script> 
+            
+          </div>   
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">{{fname}}</h4>
+            <div class="row">
+              <div class="col-sm-3 grid-margin">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="row">   
+                      <div class="col-8 col-sm-12 col-xl-8 my-auto">
+                        <div class="d-flex d-sm-block d-md-flex align-items-center">
+                          <h3 class="mb-0">Sleep</h3>
+                          {% if hours|length > 1 %}
+                          <p class="text-neutral ml-2 mb-0 font-weight-medium">{{ hours[1] - hours[0]}}</p>
+                          {% endif %}
+                        </div>
+                        {% if hours|length > 1 %}
+                        <h6 class="text-muted font-weight-normal">{{ ((hours[1] - hours[0])/hours[1] * 100) | round }}% since last month</h6>
+                        {% endif %}
+                      </div>
+                      <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
+                        <i class="icon-lg mdi mdi-sleep text-primary ml-auto"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-3 grid-margin">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-8 col-sm-12 col-xl-8 my-auto">
+                        <div class="d-flex d-sm-block d-md-flex align-items-center">
+                          <h3 class="mb-0">Quality</h3>
+                          {% if quality|length > 1 %}
+                          <p class="text-neutral ml-2 mb-0 font-weight-medium">{{ quality[1] - quality[0]}} </p>
+                          {% endif %}
+                        </div>
+                        {% if quality|length > 1 %}
+                        <h6 class="text-muted font-weight-normal">{{ ((quality[1] - quality[0])/quality[1] * 100) | round }}% since last month</h6>
+                        {% endif %}
+                      </div>
+                      <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
+                        <i class="icon-lg mdi mdi-pulse text-primary ml-auto"></i>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+            </div>
+            
+            <div class="col-sm-3 grid-margin">
+              <div class="card">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-8 col-sm-12 col-xl-8 my-auto">
+                      <div class="d-flex d-sm-block d-md-flex align-items-center">
+                        <h3 class="mb-0">Recovery</h3>
+                        {% if readiness|length > 1 %}
+                        <p class="text-neutral ml-2 mb-0 font-weight-medium"> {{ readiness[1] - readiness[0]}} </p>
+                        {% endif %}
+                      </div>
+                      {% if readiness|length > 1 %}
+                      <h6 class="text-muted font-weight-normal">{{ ((readiness[1] - readiness[0])/readiness[1] * 100) | round }}% since last month</h6>
+                      {% endif %}
+                    </div>
+                    <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
+                      <i class="icon-lg mdi mdi-heart-outline text-primary ml-auto"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm-3 grid-margin">
+              <div class="card">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-8 col-sm-12 col-xl-8 my-auto">
+                      <div class="d-flex d-sm-block d-md-flex align-items-center">
+                        <h3 class="mb-0">Calories</h3>
+                        {% if nutrition|length > 1 %}
+                        <p class="text-neutral ml-2 mb-0 font-weight-medium"> {{ nutrition[1] - nutrition[0]}} </p>
+                        {% endif %}
+                      </div>
+                      {% if nutrition|length > 1 %}
+                      <h6 class="text-muted font-weight-normal"> {{ ((nutrition[1] - nutrition[0])/nutrition[1] * 100) | round }}% since last month </h6>
+                      {% endif %}
+                    </div>
+                    <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
+                      <i class="icon-lg mdi mdi-food-apple text-primary ml-auto"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <!-- content-wrapper ends -->
+  
+  <!-- partial -->
+</div>
+<!-- main-panel ends -->
+
+
+{% endblock %}

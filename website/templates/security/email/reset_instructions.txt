@@ -1,0 +1,7 @@
+{# This template receives the following context:
+  reset_link - the link that should be fetched (GET) to reset
+  reset_token - this token is part of reset link - but can be used to
+    construct arbitrary URLs for redirecting.
+  user - the entire user model object
+  security - the Flask-Security configuration
+#}Click the link to reset your password: {{ reset_link }}

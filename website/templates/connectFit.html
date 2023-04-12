@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %} Connect Google Fit {% endblock %}
+{% block content %}
+<div class="main-panel">
+  <div class="content-wrapper">
+    <div class="row">
+      <div class="col-12">
+        <p>
+          To track your sleep data using the Colby Athlete Managment System you can connect a Google Fit account, which can read sleep data from most wearables.
+        </p>
+        <p>
+          Sleep data will be available to your coaches in-season and will be stored and used by the PEAK team.
+        </p>
+        <p>
+          Sharing this data is COMPLETELY OPTIONAL.
+        </p>
+      </div>
+      <div class="col-12 text-center">
+        <form action="{{ url_for('views.connectFit') }}" method="POST" name="connect-fit-form">
+            <input type="submit" value="Connect">
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

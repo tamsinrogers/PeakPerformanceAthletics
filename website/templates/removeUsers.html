@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %} Remove Users {% endblock %}
+
+{% block content %}
+
+<div class="row w-100 m-0">
+          <div class="content-wrapper full-page-wrapper d-flex align-items-center auth login-bg">
+            <div class="col-lg-5.5 mx-auto">
+              <div class="card">
+                <div class="card-body px-5 py-5">
+                  <h3 class="card-title text-left mb-3">Remove Users</h3>
+                    <div class="m-scroll">
+				           <table class="table table-dark">
+				        	{% for coach in coaches %}
+							  <tr>
+								<th>{{coach.first_name}}</th>
+								<th>{{coach.last_name}}</th>
+								<th>{{coach.email}}</th>
+							    <th>
+									<a href="{{url_for('views.remove', user_email=coach.email)}}" onclick="return confirm('Are you sure you wish to remove {{coach.first_name}}?');">
+										x
+									</a> 
+								</th>
+							  </tr>
+							{% endfor %}
+							{% for athlete in athletes %}
+							  <tr>
+								<th>{{athlete.first_name}}</th>
+								<th>{{athlete.last_name}}</th>
+								<th>{{athlete.email}}</th>
+							    <th>
+									<a href="{{url_for('views.remove', user_email=athlete.email)}}" onclick="return confirm('Are you sure you wish to remove {{athlete.first_name}}?');">
+										x
+									</a> 
+								</th>
+							  </tr>
+							{% endfor %}
+							</table>
+					</div>
+                </div>
+              </div>
+            </div>
+          </div>
+		  
+{% endblock %}

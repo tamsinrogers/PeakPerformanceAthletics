@@ -1,0 +1,324 @@
+<!-- THIS FILE (PERMISSIONS.HTML) DRAWS THE PERMISSIONS DASHBOARD (TO BE USED BY THE ADMIN TO SET ROLES)-->
+
+{% extends "base.html" %}
+
+{% block title %} Home {% endblock %}
+{% block content %}
+        
+<div class="main-panel">
+  <div class="content-wrapper">
+    <div class="row">
+      <div class="col-12 grid-margin stretch-card">
+        <div class="card corona-gradient-card">
+          <div class="card-body py-0 px-0 px-sm-3">
+            <div class="row align-items-center">
+              <div class="col-4 col-sm-3 col-xl-2">
+              </div>
+              <div class="col-5 col-sm-7 col-xl-8 p-0 text-center">
+                <h2 class="mb-1 mb-sm-0">Admin Permissions Page</h2>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="row">
+        <div class="col-12 grid-margin stretch-card">
+          
+            <div class="card-body py-0 px-0 px-sm-3">
+              <div class="row align-items-center">
+                <div class="col-4 col-sm-3 col-xl-2">
+                </div>
+                <div class="col-5 col-sm-7 col-xl-8 p-0 text-center">
+                  <h1 class="mb-1 mb-sm-0">{{selected_user.first_name}}  {{selected_user.last_name}}</h1>
+                </div>
+              </div>
+            
+          </div>
+        </div>
+      </div>
+      
+      
+      
+    </div>
+    <div class="row">
+      <div class="col-md-3 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Search Within:</h4>
+            <div class="form-group">
+              <label>Select which group to choose from</label>
+              <select class="js-example-basic-single" style="width:100%">
+                <option value="All" >All</option>
+                <option value="Athletes">Athletes</option>
+                <option value="Coaches">Coaches</option>
+                <option value="Peak Members">Peak Members</option>
+                <option value="Men's Ski">Men's Ski Team</option>
+                <option value="Women's Ski">Women's Ski Team</option>
+              </select>
+            </div>
+            
+          </div>
+
+          
+        </div>
+      </div>
+
+      <div class="col-md-3 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Choose User:</h4>
+            <div class="form-group">
+              <form method="post" action="{{url_for('views.permissions')}}">
+                <select name="users" class="js-example-basic-single" style="width:100%" size = "5">
+                  <option ></option>
+                  {% for user in user_list %}
+                  <option value="{{user.id}}"> {{user.last_name}}, {{user.first_name}}</option>
+                  {% endfor %}
+                </select>
+            
+            </div> 
+            <button type="submit" class="btn btn-primary mr-2">Select User</button>
+          </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <form method="POST" action="{{url_for('views.changeRole', chosen_user_id = selected_user.id)}}">
+            <h4 class="card-title">Change Role:</h4>
+            
+            <div class="form-group">
+              <select name="changeRole"  class="js-example-basic-single" style="width:100%">
+                <option value="athlete" >Athlete</option>
+                <option value="coach" >Coach</option>
+                <option value="admin" >Admin</option>
+              </select>
+              <h4></h4>
+              <button type="submit" class="btn btn-primary mr-2">Submit</button>
+            </form>
+
+            </div> 
+            
+
+            <h4 class="card-title">Change Permissions:</h4>
+            <form method="POST" action="{{url_for('views.permissions')}}">
+              <div class="row">
+
+                <div class="col-md-10">
+                  <div class="form-group">
+                    <form method="POST" action="{{url_for('views.permissions')}}">
+                      <select name="select_role" class="js-example-basic-single" style="width:100%" >
+                        <option value="athlete" >Athlete</option>
+                        <option value="team" >Team</option>
+                        <option value="admin" >Admin</option>
+                      </select>
+                      <p></p>
+                      <button type="submit" class="btn btn-primary mr-2">Select Role</button>
+                    </form> 
+                    <p></p>
+
+                    {% if selected_role=='athlete' or selected_role=='team' %}
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <div class="form-check">
+                            <label class="form-check-label">
+                              {% if selected_role == 'athlete' %}
+                                <input type="checkbox" class="form-check-input"> View Athlete </label>
+                              {% elif selected_role == "team" %}
+                                <input type="checkbox" class="form-check-input"> View Team </label>
+                              {% endif %}
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <p >Until: </p>
+                          <div class="col-sm-9">
+                            <input class="form-control" placeholder="dd/mm/yyyy" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <div class="form-check">
+                            <label class="form-check-label">
+                              {% if selected_role == "athlete" %}
+                                <input type="checkbox" class="form-check-input"> Add Athlete </label>
+                              {% elif selected_role == "team" %}
+                                <input type="checkbox" class="form-check-input"> Add Team </label>
+                              {% endif %}
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <p >Until: </p>
+                          <div class="col-sm-9">
+                            <input class="form-control" placeholder="dd/mm/yyyy" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                   
+
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <div class="form-check">
+                            <label class="form-check-label">
+                              {% if selected_role == "athlete" %}
+                                <input type="checkbox" class="form-check-input"> Modify Athlete </label>
+                              {% elif selected_role == "team" %}
+                                <input type="checkbox" class="form-check-input"> Modify Team </label>
+                              {% endif %}
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <p >Until: </p>
+                          <div class="col-sm-9">
+                            <input class="form-control" placeholder="dd/mm/yyyy" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    
+
+                    {% elif selected_role=="admin" %}
+
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <div class="form-check">
+                            <label class="form-check-label">
+                              <input type="checkbox" class="form-check-input"> Add reports </label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <p style="display:inline;" >Until: </p>
+                          <div class="col-sm-9">
+                            <input class="form-control" placeholder="dd/mm/yyyy" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <div class="form-check">
+                            <label class="form-check-label">
+                              <input type="checkbox" class="form-check-input"> Modify all data </label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <p >Until: </p>
+                          <div class="col-sm-9">
+                            <input class="form-control" placeholder="dd/mm/yyyy" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {% endif %}
+
+                    <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                  </div>
+                </div>
+
+              </div>
+            </form>
+            
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    
+    
+    <div class="row">
+      <div class="col-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Add New User</h4>
+            <form method="POST" action="{{url_for('views.adduser')}}">
+              <div class="form-group">
+                <label for="exampleInputName1">First Name</label>
+                <input name="first_name" type="text" class="form-control" id="exampleInputName1" placeholder="First Name">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputName1">Last Name</label>
+                <input name="last_name" type="text" class="form-control" id="exampleInputName1" placeholder="Last Name">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputEmail3">Email address</label>
+                <input name="email" type="email" class="form-control" id="exampleInputEmail3" placeholder="Email">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword4">Password</label>
+                <input name="password" type="password" class="form-control" id="exampleInputPassword4" placeholder="Password">
+              </div>
+              
+              <div class="form-group">
+                <label>Role</label>
+                <div class="form-group">
+                  <select name="roles" class="js-example-basic-single" >
+                    <option value="athlete" name="Athlete_role" >Athlete</option>
+                    <option value="coach" name="Coach_role" >Coach</option>
+                    <option value="admin" name="Admin_role" >Admin</option>
+                  </select>
+                </div> 
+              </div>
+              
+              
+              <div class="form-group">
+                <label>Teams: </label>
+                <select idd="teams" name = "teams" class="js-example-basic-multiple" multiple="multiple" style="width:100%" size = "5">
+                  {% for team in team_list %}
+                  
+                  <option value= "{{team.name}}" >{{team.name}}</option>
+                  {% endfor %}
+                  
+                </select>
+              </div>
+                
+              
+              
+              <h1></h1>
+              <button type="submit" class="btn btn-primary mr-2">Submit</button>
+              <button class="btn btn-dark">Cancel</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      </div>
+    </form>
+
+    </div>
+
+    
+
+
+
+  <!-- content-wrapper ends -->
+  
+</div>
+
+{% endblock %}
